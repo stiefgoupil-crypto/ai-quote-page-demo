@@ -120,6 +120,9 @@
       }
 
       .button {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
         border: 0;
         border-radius: 16px;
         background: var(--blue);
@@ -127,6 +130,7 @@
         cursor: pointer;
         font-weight: 800;
         padding: 14px 18px;
+        text-decoration: none;
         transition:
           transform 0.18s ease,
           background 0.18s ease,
@@ -414,6 +418,11 @@
         color: #cbd5e1;
       }
 
+      .price .button {
+        margin-top: 18px;
+        width: 100%;
+      }
+
       @media (max-width: 900px) {
         .hero,
         .quote-page,
@@ -485,6 +494,7 @@
           <div class="cta-row">
             <button class="button" type="button" onclick="scrollToDemo()">Try the demo</button>
             <button class="button secondary" type="button" onclick="fillSample()">Load sample request</button>
+            <a class="button secondary" href="mailto:stiefgoupil@gmail.com?subject=AI%20Quote%20Page%20%2499%20pilot&body=Hi%20Xiangbo%2C%0A%0AI%20saw%20the%20AI%20Quote%20Page%20demo%20and%20I%27d%20like%20to%20discuss%20a%20%2499%20pilot%20for%20my%20business.%0A%0ABusiness%20type%3A%0AWebsite%3A%0AWhat%20we%20want%20the%20quote%20page%20to%20collect%3A%0A%0ABest%2C">Start a $99 pilot</a>
             <span class="note">No login. No customer data is sent anywhere.</span>
           </div>
         </div>
@@ -645,6 +655,7 @@
         <div class="price">
           <strong>$99</strong>
           <span>fixed price · first pilot · 3-day delivery</span>
+          <a class="button" href="mailto:stiefgoupil@gmail.com?subject=AI%20Quote%20Page%20%2499%20pilot&body=Hi%20Xiangbo%2C%0A%0AI%20saw%20the%20AI%20Quote%20Page%20demo%20and%20I%27d%20like%20to%20discuss%20a%20%2499%20pilot%20for%20my%20business.%0A%0ABusiness%20type%3A%0AWebsite%3A%0AWhat%20we%20want%20the%20quote%20page%20to%20collect%3A%0A%0ABest%2C">Start the $99 pilot</a>
         </div>
       </section>
     </main>

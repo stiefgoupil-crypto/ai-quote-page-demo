@@ -4,6 +4,8 @@ A lightweight static demo for small service businesses that want to turn custome
 
 **Live demo:** https://stiefgoupil-crypto.github.io/ai-quote-page-demo/
 
+**Contact:** stiefgoupil@gmail.com
+
 ## What it demonstrates
 
 - Public customer inquiry form
@@ -12,6 +14,7 @@ A lightweight static demo for small service businesses that want to turn custome
 - Copy-to-clipboard workflow
 - Mobile-friendly single-page layout
 - Clear `$99 fixed price / 3-day delivery` pilot offer
+- Mailto CTA for starting a pilot
 
 ## Run locally
 
