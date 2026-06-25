@@ -2,6 +2,8 @@
 
 A lightweight static demo for small service businesses that want to turn customer inquiries into structured summaries and copy-ready quote replies.
 
+**Live demo:** https://stiefgoupil-crypto.github.io/ai-quote-page-demo/
+
 ## What it demonstrates
 
 - Public customer inquiry form
