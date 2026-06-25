@@ -1,0 +1,735 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>AI Quote Page Demo</title>
+    <style>
+      :root {
+        color-scheme: light;
+        --ink: #172033;
+        --muted: #667085;
+        --line: #e5e7ef;
+        --paper: #ffffff;
+        --soft: #f5f7fb;
+        --blue: #3157ff;
+        --blue-dark: #213dc1;
+        --green: #0f9f6e;
+        --orange: #f59e0b;
+        --shadow: 0 24px 70px rgba(32, 48, 84, 0.14);
+      }
+
+      * {
+        box-sizing: border-box;
+      }
+
+      body {
+        margin: 0;
+        background:
+          radial-gradient(circle at top left, rgba(49, 87, 255, 0.16), transparent 34rem),
+          linear-gradient(180deg, #f7f9ff 0%, #ffffff 52%, #f7f9ff 100%);
+        color: var(--ink);
+        font-family:
+          Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
+          sans-serif;
+        line-height: 1.5;
+      }
+
+      button,
+      input,
+      select,
+      textarea {
+        font: inherit;
+      }
+
+      .shell {
+        width: min(1120px, calc(100% - 32px));
+        margin: 0 auto;
+        padding: 28px 0 48px;
+      }
+
+      .topbar {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        gap: 18px;
+        margin-bottom: 58px;
+      }
+
+      .brand {
+        display: inline-flex;
+        align-items: center;
+        gap: 10px;
+        color: var(--ink);
+        font-size: 18px;
+        font-weight: 800;
+        letter-spacing: -0.03em;
+        text-decoration: none;
+      }
+
+      .brand-mark {
+        display: grid;
+        width: 36px;
+        height: 36px;
+        place-items: center;
+        border-radius: 12px;
+        background: var(--ink);
+        color: #fff;
+      }
+
+      .pill {
+        display: inline-flex;
+        align-items: center;
+        gap: 8px;
+        border: 1px solid rgba(49, 87, 255, 0.18);
+        border-radius: 999px;
+        background: rgba(255, 255, 255, 0.8);
+        color: var(--blue-dark);
+        font-size: 13px;
+        font-weight: 700;
+        padding: 8px 13px;
+      }
+
+      .hero {
+        display: grid;
+        grid-template-columns: 0.94fr 1.06fr;
+        gap: 34px;
+        align-items: center;
+      }
+
+      .hero-copy h1 {
+        max-width: 680px;
+        margin: 18px 0 18px;
+        font-size: clamp(42px, 7vw, 76px);
+        line-height: 0.95;
+        letter-spacing: -0.075em;
+      }
+
+      .hero-copy p {
+        max-width: 560px;
+        margin: 0 0 26px;
+        color: var(--muted);
+        font-size: 18px;
+      }
+
+      .cta-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        align-items: center;
+      }
+
+      .button {
+        border: 0;
+        border-radius: 16px;
+        background: var(--blue);
+        color: #fff;
+        cursor: pointer;
+        font-weight: 800;
+        padding: 14px 18px;
+        transition:
+          transform 0.18s ease,
+          background 0.18s ease,
+          box-shadow 0.18s ease;
+      }
+
+      .button:hover {
+        background: var(--blue-dark);
+        box-shadow: 0 14px 34px rgba(49, 87, 255, 0.24);
+        transform: translateY(-1px);
+      }
+
+      .button.secondary {
+        border: 1px solid var(--line);
+        background: #fff;
+        color: var(--ink);
+      }
+
+      .button.secondary:hover {
+        background: var(--soft);
+        box-shadow: none;
+      }
+
+      .note {
+        color: var(--muted);
+        font-size: 14px;
+      }
+
+      .demo-card {
+        border: 1px solid rgba(23, 32, 51, 0.08);
+        border-radius: 30px;
+        background: rgba(255, 255, 255, 0.86);
+        box-shadow: var(--shadow);
+        padding: 18px;
+        backdrop-filter: blur(18px);
+      }
+
+      .browser-bar {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        border-bottom: 1px solid var(--line);
+        padding: 4px 4px 15px;
+      }
+
+      .dot {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+        background: #ff6159;
+      }
+
+      .dot:nth-child(2) {
+        background: #ffbd2e;
+      }
+
+      .dot:nth-child(3) {
+        background: #28c840;
+      }
+
+      .url {
+        margin-left: 8px;
+        overflow: hidden;
+        border-radius: 999px;
+        background: var(--soft);
+        color: var(--muted);
+        font-size: 12px;
+        padding: 6px 12px;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+
+      .quote-page {
+        display: grid;
+        grid-template-columns: 0.86fr 1.14fr;
+        gap: 16px;
+        padding-top: 18px;
+      }
+
+      .panel {
+        border: 1px solid var(--line);
+        border-radius: 22px;
+        background: var(--paper);
+        padding: 18px;
+      }
+
+      .panel h2,
+      .panel h3 {
+        margin: 0 0 10px;
+        letter-spacing: -0.04em;
+      }
+
+      .field {
+        margin-top: 13px;
+      }
+
+      label {
+        display: block;
+        margin-bottom: 6px;
+        color: #344054;
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      input,
+      select,
+      textarea {
+        width: 100%;
+        border: 1px solid var(--line);
+        border-radius: 13px;
+        background: #fff;
+        color: var(--ink);
+        outline: none;
+        padding: 11px 12px;
+      }
+
+      textarea {
+        min-height: 108px;
+        resize: vertical;
+      }
+
+      input:focus,
+      select:focus,
+      textarea:focus {
+        border-color: rgba(49, 87, 255, 0.55);
+        box-shadow: 0 0 0 4px rgba(49, 87, 255, 0.1);
+      }
+
+      .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 12px;
+      }
+
+      .full {
+        grid-column: 1 / -1;
+      }
+
+      .output {
+        display: grid;
+        gap: 12px;
+      }
+
+      .metric-row {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 10px;
+      }
+
+      .metric {
+        border-radius: 16px;
+        background: var(--soft);
+        padding: 13px;
+      }
+
+      .metric span {
+        display: block;
+        color: var(--muted);
+        font-size: 12px;
+        font-weight: 800;
+      }
+
+      .metric strong {
+        display: block;
+        margin-top: 4px;
+        font-size: 20px;
+        letter-spacing: -0.04em;
+      }
+
+      .summary {
+        border-radius: 18px;
+        background: #f8fbff;
+        padding: 16px;
+      }
+
+      .summary ul {
+        margin: 10px 0 0;
+        padding-left: 19px;
+      }
+
+      .email-box {
+        width: 100%;
+        min-height: 245px;
+        border: 1px solid var(--line);
+        border-radius: 18px;
+        background: #111827;
+        color: #f9fafb;
+        font-family: "SFMono-Regular", Consolas, monospace;
+        font-size: 13px;
+        line-height: 1.55;
+        padding: 16px;
+        white-space: pre-wrap;
+      }
+
+      .mini-actions {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .status {
+        color: var(--green);
+        font-size: 13px;
+        font-weight: 800;
+      }
+
+      .section {
+        margin-top: 42px;
+      }
+
+      .section-title {
+        max-width: 720px;
+        margin: 0 0 18px;
+        font-size: clamp(28px, 5vw, 46px);
+        line-height: 1;
+        letter-spacing: -0.06em;
+      }
+
+      .cards {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 16px;
+      }
+
+      .card {
+        border: 1px solid var(--line);
+        border-radius: 24px;
+        background: #fff;
+        padding: 22px;
+      }
+
+      .card .icon {
+        display: grid;
+        width: 42px;
+        height: 42px;
+        place-items: center;
+        border-radius: 14px;
+        background: rgba(49, 87, 255, 0.1);
+        color: var(--blue);
+        font-size: 20px;
+        font-weight: 900;
+      }
+
+      .card h3 {
+        margin: 16px 0 8px;
+      }
+
+      .card p {
+        margin: 0;
+        color: var(--muted);
+      }
+
+      .offer {
+        display: grid;
+        grid-template-columns: 1.2fr 0.8fr;
+        gap: 18px;
+        align-items: center;
+        border-radius: 30px;
+        background: #111827;
+        color: #fff;
+        padding: 30px;
+      }
+
+      .offer p {
+        color: #cbd5e1;
+      }
+
+      .price {
+        border: 1px solid rgba(255, 255, 255, 0.16);
+        border-radius: 24px;
+        background: rgba(255, 255, 255, 0.08);
+        padding: 24px;
+      }
+
+      .price strong {
+        display: block;
+        font-size: 54px;
+        line-height: 1;
+        letter-spacing: -0.08em;
+      }
+
+      .price span {
+        color: #cbd5e1;
+      }
+
+      @media (max-width: 900px) {
+        .hero,
+        .quote-page,
+        .offer {
+          grid-template-columns: 1fr;
+        }
+
+        .cards {
+          grid-template-columns: 1fr;
+        }
+      }
+
+      @media (max-width: 560px) {
+        .shell {
+          width: min(100% - 22px, 1120px);
+          padding-top: 16px;
+        }
+
+        .topbar {
+          align-items: flex-start;
+          flex-direction: column;
+          margin-bottom: 34px;
+        }
+
+        .demo-card {
+          border-radius: 22px;
+          padding: 12px;
+        }
+
+        .quote-page,
+        .form-grid,
+        .metric-row {
+          grid-template-columns: 1fr;
+        }
+
+        .full {
+          grid-column: auto;
+        }
+
+        .hero-copy h1 {
+          font-size: 44px;
+        }
+
+        .offer {
+          padding: 22px;
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <main class="shell">
+      <header class="topbar">
+        <a class="brand" href="#top" aria-label="AI Quote Page home">
+          <span class="brand-mark">Q</span>
+          <span>AI Quote Page</span>
+        </a>
+        <span class="pill">Demo for small service businesses · $99 / 3 days</span>
+      </header>
+
+      <section class="hero" id="top">
+        <div class="hero-copy">
+          <span class="pill">INQUIRY → CLEAN QUOTE DRAFT</span>
+          <h1>Turn messy customer requests into reply-ready quotes.</h1>
+          <p>
+            A lightweight quote page for small businesses that collect requests through email,
+            WhatsApp, or website forms. The demo organizes the customer’s details and prepares a
+            clear response draft your team can copy.
+          </p>
+          <div class="cta-row">
+            <button class="button" type="button" onclick="scrollToDemo()">Try the demo</button>
+            <button class="button secondary" type="button" onclick="fillSample()">Load sample request</button>
+            <span class="note">No login. No customer data is sent anywhere.</span>
+          </div>
+        </div>
+
+        <div class="demo-card" id="demo">
+          <div class="browser-bar" aria-hidden="true">
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="dot"></span>
+            <span class="url">quote-page.example/customer-request</span>
+          </div>
+
+          <div class="quote-page">
+            <section class="panel" aria-label="Customer inquiry form">
+              <h2>Request a quote</h2>
+              <p class="note">This is the public page your customer would fill out.</p>
+
+              <form id="quoteForm" onsubmit="event.preventDefault(); generateQuote();">
+                <div class="form-grid">
+                  <div class="field">
+                    <label for="name">Customer name</label>
+                    <input id="name" value="Sarah Miller" />
+                  </div>
+
+                  <div class="field">
+                    <label for="business">Business type</label>
+                    <select id="business">
+                      <option>Local home service</option>
+                      <option>Marketing agency</option>
+                      <option>Repair shop</option>
+                      <option>Consulting service</option>
+                      <option>Event vendor</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="service">Service needed</label>
+                    <select id="service">
+                      <option>Website update</option>
+                      <option>Cleaning estimate</option>
+                      <option>Landscaping quote</option>
+                      <option>Marketing report</option>
+                      <option>Custom project</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="timeline">Timeline</label>
+                    <select id="timeline">
+                      <option>This week</option>
+                      <option>Within 2 weeks</option>
+                      <option>This month</option>
+                      <option>Flexible</option>
+                    </select>
+                  </div>
+
+                  <div class="field full">
+                    <label for="details">Request details</label>
+                    <textarea id="details">We need a simple landing page update with a cleaner contact form, mobile layout improvements, and a short FAQ section. We want to launch before next Friday.</textarea>
+                  </div>
+
+                  <div class="field">
+                    <label for="budget">Budget range</label>
+                    <select id="budget">
+                      <option>$300–$500</option>
+                      <option>$500–$1,000</option>
+                      <option>$1,000–$2,500</option>
+                      <option>Not sure yet</option>
+                    </select>
+                  </div>
+
+                  <div class="field">
+                    <label for="contact">Best contact</label>
+                    <input id="contact" value="sarah@example.com" />
+                  </div>
+                </div>
+
+                <div class="field">
+                  <button class="button" type="submit">Generate reply draft</button>
+                </div>
+              </form>
+            </section>
+
+            <section class="panel output" aria-live="polite">
+              <div class="mini-actions">
+                <div>
+                  <h3>Quote assistant output</h3>
+                  <p class="note">A structured summary plus a copy-ready reply.</p>
+                </div>
+                <span class="status" id="status">Ready</span>
+              </div>
+
+              <div class="metric-row">
+                <div class="metric">
+                  <span>Lead type</span>
+                  <strong id="leadType">Website</strong>
+                </div>
+                <div class="metric">
+                  <span>Urgency</span>
+                  <strong id="urgency">High</strong>
+                </div>
+                <div class="metric">
+                  <span>Next step</span>
+                  <strong id="nextStep">Reply</strong>
+                </div>
+              </div>
+
+              <div class="summary">
+                <strong>Request summary</strong>
+                <ul id="summaryList">
+                  <li>Customer wants a website update and contact form cleanup.</li>
+                  <li>Timeline is this week, so the reply should confirm scope quickly.</li>
+                  <li>Suggested next step: send a fixed-scope estimate and ask for assets.</li>
+                </ul>
+              </div>
+
+              <textarea class="email-box" id="emailDraft" readonly></textarea>
+
+              <div class="mini-actions">
+                <button class="button secondary" type="button" onclick="copyDraft()">Copy reply</button>
+                <span class="note" id="copyNote">Use this as a starting point, then edit before sending.</span>
+              </div>
+            </section>
+          </div>
+        </div>
+      </section>
+
+      <section class="section">
+        <h2 class="section-title">What a business gets in the $99 pilot</h2>
+        <div class="cards">
+          <article class="card">
+            <span class="icon">1</span>
+            <h3>Public inquiry page</h3>
+            <p>A mobile-friendly page customers can use instead of sending incomplete messages.</p>
+          </article>
+          <article class="card">
+            <span class="icon">2</span>
+            <h3>Structured request summary</h3>
+            <p>The request is turned into clear scope, urgency, budget, and next-step fields.</p>
+          </article>
+          <article class="card">
+            <span class="icon">3</span>
+            <h3>Copy-ready reply draft</h3>
+            <p>The business owner gets a clean response draft they can edit and send faster.</p>
+          </article>
+        </div>
+      </section>
+
+      <section class="section offer">
+        <div>
+          <span class="pill">FIXED-SCOPE PILOT</span>
+          <h2 class="section-title">Built for one business workflow in 3 days.</h2>
+          <p>
+            This demo does not claim to be a full CRM or AI platform. It shows the smallest useful
+            version: collect better customer requests and respond faster.
+          </p>
+        </div>
+        <div class="price">
+          <strong>$99</strong>
+          <span>fixed price · first pilot · 3-day delivery</span>
+        </div>
+      </section>
+    </main>
+
+    <script>
+      const draft = document.getElementById("emailDraft");
+
+      function scrollToDemo() {
+        document.getElementById("demo").scrollIntoView({ behavior: "smooth", block: "start" });
+      }
+
+      function getValue(id) {
+        return document.getElementById(id).value.trim();
+      }
+
+      function classifyUrgency(timeline) {
+        if (timeline === "This week") return "High";
+        if (timeline === "Within 2 weeks") return "Medium";
+        return "Normal";
+      }
+
+      function generateQuote() {
+        const name = getValue("name") || "there";
+        const business = getValue("business");
+        const service = getValue("service");
+        const timeline = getValue("timeline");
+        const budget = getValue("budget");
+        const details = getValue("details");
+        const contact = getValue("contact");
+        const urgency = classifyUrgency(timeline);
+
+        document.getElementById("leadType").textContent = service.split(" ")[0];
+        document.getElementById("urgency").textContent = urgency;
+        document.getElementById("nextStep").textContent = urgency === "High" ? "Today" : "Reply";
+        document.getElementById("status").textContent = "Generated";
+
+        document.getElementById("summaryList").innerHTML = `
+          <li>${name} needs help with ${service.toLowerCase()} for a ${business.toLowerCase()}.</li>
+          <li>Timeline: ${timeline}. Budget: ${budget}. Contact: ${contact || "not provided"}.</li>
+          <li>Key request: ${details || "No extra details provided."}</li>
+        `;
+
+        draft.value = `Subject: Re: ${service} quote request
+
+Hi ${name},
+
+Thanks for sharing the details. Based on your request, the main scope looks like:
+- ${service}
+- Timeline: ${timeline}
+- Budget range: ${budget}
+
+For a first version, I would suggest keeping the scope focused so we can move quickly and avoid unnecessary complexity. The next step would be to confirm the exact deliverables, any examples you like, and the materials you already have.
+
+If that sounds good, I can send a fixed-scope quote and timeline today.
+
+Best,
+Your Business Team`;
+      }
+
+      function fillSample() {
+        document.getElementById("name").value = "Daniel Reed";
+        document.getElementById("business").value = "Local home service";
+        document.getElementById("service").value = "Cleaning estimate";
+        document.getElementById("timeline").value = "Within 2 weeks";
+        document.getElementById("budget").value = "$500–$1,000";
+        document.getElementById("contact").value = "daniel@example.com";
+        document.getElementById("details").value =
+          "We manage move-out cleaning jobs and customers often send incomplete details. We need a form that asks for property size, rooms, date, and special notes before we reply with a quote.";
+        generateQuote();
+        scrollToDemo();
+      }
+
+      async function copyDraft() {
+        const note = document.getElementById("copyNote");
+        try {
+          await navigator.clipboard.writeText(draft.value);
+          note.textContent = "Copied. You can paste it into email or WhatsApp.";
+        } catch {
+          draft.focus();
+          draft.select();
+          note.textContent = "Selected. Press Ctrl+C or Command+C to copy.";
+        }
+      }
+
+      generateQuote();
+    </script>
+  </body>
+</html>
